@@ -1,0 +1,30 @@
+{# Name: Gabriel Ginsberg #}
+{# Email: gginsber@bu.edu #}
+{# Description: Lists every PriceHistory row whose parent expense belongs #}
+{#              to the caller. The default ordering (newest first) comes  #}
+{#              from PriceHistory.Meta and is what the user expects when  #}
+{#              auditing recent changes.                                  #}
+{% extends "project/base.html" %}
+
+{% block title %}Price History — Financial Tracker{% endblock %}
+
+{% block content %}
+    <h1>My Price History</h1>
+    <p class="muted">Every price change recorded across your active and inactive expenses.</p>
+
+    <ul class="records">
+    {% for row in object_list %}
+        <li>
+            <a href="{% url 'project:pricehistory_detail' row.pk %}">
+                <strong>{{ row.expense.service_name }}</strong>
+                <span class="muted">
+                    — {{ row.amount_recorded }} on {{ row.date_changed|date:"Y-m-d" }}
+                    {% if row.change_note %}— "{{ row.change_note }}"{% endif %}
+                </span>
+            </a>
+        </li>
+    {% empty %}
+        <li class="empty">No price history rows recorded yet.</li>
+    {% endfor %}
+    </ul>
+{% endblock %}

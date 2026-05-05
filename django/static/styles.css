@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+nav a {
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+img {
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+.menu-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.menu-item {
+    flex: 0 1 calc(50% - 10px);
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.daily-special-section,
+.contact-section {
+    flex: 0 1 100%;
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    justify-content: center;
+    text-align: center;
+}

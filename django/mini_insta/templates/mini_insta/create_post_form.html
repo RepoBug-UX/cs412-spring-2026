@@ -1,0 +1,19 @@
+{% extends 'mini_insta/base.html' %}
+
+{% block content %}
+<div>
+    <h1>Create a Post for {{ profile.display_name }}</h1>
+    <form action="{% url 'mini_insta:create_post' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <p>Caption:<br>
+        {{ form.caption }}</p>
+
+        <p>Images:<br>
+        <input type="file" name="files" multiple></p>
+
+        <input type="submit" value="Submit">
+        <a href="{% url 'mini_insta:show_profile' profile.pk %}">Cancel</a>
+    </form>
+</div>
+{% endblock %}

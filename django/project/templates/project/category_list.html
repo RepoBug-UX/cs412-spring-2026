@@ -1,0 +1,27 @@
+{# Name: Gabriel Ginsberg #}
+{# Email: gginsber@bu.edu #}
+{# Description: Lists every Category in the system. Categories are global #}
+{#              per design D1, so the queryset is not user-scoped — every #}
+{#              authenticated user sees the full seeded list.             #}
+{% extends "project/base.html" %}
+
+{% block title %}Categories — Financial Tracker{% endblock %}
+
+{% block content %}
+    <h1>Categories</h1>
+    <p class="muted">Global spending categories shared across all users (per design decision D1).</p>
+
+    <ul class="records">
+    {% for category in object_list %}
+        <li>
+            <a href="{% url 'project:category_detail' category.pk %}">
+                <strong>{{ category.name }}</strong>
+                {% if category.is_essential %}<span class="muted">— essential</span>{% endif %}
+                {% if category.budget_goal %}<span class="muted">— budget goal {{ category.budget_goal }}</span>{% endif %}
+            </a>
+        </li>
+    {% empty %}
+        <li class="empty">No categories defined yet.</li>
+    {% endfor %}
+    </ul>
+{% endblock %}

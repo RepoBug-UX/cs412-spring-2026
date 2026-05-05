@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head><title>Picture</title></head>
+<body>
+    <h1>Picture</h1>
+    <img src="{{ picture.image_url }}" alt="Funny picture" style="max-width:400px;">
+    <p><em>Contributed by {{ picture.contributor }}</em></p>
+    <p>Posted: {{ picture.created }}</p>
+
+    <hr>
+    <a href="{% url 'dadjokes:pictures' %}">All Pictures</a> |
+    <a href="{% url 'dadjokes:random' %}">Random</a>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><title>All Jokes</title></head>
+<body>
+    <h1>All Dad Jokes</h1>
+    <ul>
+    {% for joke in jokes %}
+        <li>
+            <a href="{% url 'dadjokes:joke_detail' joke.pk %}">{{ joke.text }}</a>
+            <br><em>- {{ joke.contributor }}</em>
+        </li>
+    {% endfor %}
+    </ul>
+
+    <hr>
+    <a href="{% url 'dadjokes:random' %}">Random Joke</a> |
+    <a href="{% url 'dadjokes:pictures' %}">All Pictures</a>
+</body>
+</html>

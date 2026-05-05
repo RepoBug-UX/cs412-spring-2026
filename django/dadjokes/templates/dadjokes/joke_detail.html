@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head><title>Joke</title></head>
+<body>
+    <h1>Dad Joke</h1>
+    <p><strong>{{ joke.text }}</strong></p>
+    <p><em>- {{ joke.contributor }}</em></p>
+    <p>Posted: {{ joke.created }}</p>
+
+    <hr>
+    <a href="{% url 'dadjokes:jokes' %}">All Jokes</a> |
+    <a href="{% url 'dadjokes:random' %}">Random</a>
+</body>
+</html>

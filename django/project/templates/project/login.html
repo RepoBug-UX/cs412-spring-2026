@@ -1,0 +1,27 @@
+{# Name: Gabriel Ginsberg #}
+{# Email: gginsber@bu.edu #}
+{# Description: Login form for the project app. Renders Django's built-in #}
+{#              AuthenticationForm bound by LoginView; per-form errors    #}
+{#              come through `form.non_field_errors` for bad credentials. #}
+{% extends "project/base.html" %}
+
+{% block title %}Log in — Financial Tracker{% endblock %}
+
+{% block content %}
+    <h1>Log in</h1>
+    <form method="post" style="background: var(--panel); padding: 1.2rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; max-width: 360px;">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            <p style="color: #b94a48;">{{ form.non_field_errors|join:" " }}</p>
+        {% endif %}
+        <p>
+            <label for="{{ form.username.id_for_label }}">Username</label><br>
+            {{ form.username }}
+        </p>
+        <p>
+            <label for="{{ form.password.id_for_label }}">Password</label><br>
+            {{ form.password }}
+        </p>
+        <button type="submit" style="background: var(--accent); color: white; border: none; padding: 0.5rem 1.2rem; border-radius: 4px; cursor: pointer;">Log in</button>
+    </form>
+{% endblock %}

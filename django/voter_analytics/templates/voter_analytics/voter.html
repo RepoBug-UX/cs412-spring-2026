@@ -1,0 +1,49 @@
+{% extends 'voter_analytics/base.html' %}
+
+{% block content %}
+<h1>Voter Detail: {{ voter.first_name }} {{ voter.last_name }}</h1>
+
+<a href="{% url 'voter_analytics:voters' %}">&larr; Back to All Voters</a>
+
+<h2>Personal Information</h2>
+<table border="1" cellpadding="5">
+    <tr><th>First Name</th><td>{{ voter.first_name }}</td></tr>
+    <tr><th>Last Name</th><td>{{ voter.last_name }}</td></tr>
+    <tr><th>Date of Birth</th><td>{{ voter.date_of_birth }}</td></tr>
+    <tr><th>Party Affiliation</th><td>{{ voter.party_affiliation }}</td></tr>
+    <tr><th>Precinct Number</th><td>{{ voter.precinct_number }}</td></tr>
+    <tr><th>Date of Registration</th><td>{{ voter.date_of_registration }}</td></tr>
+    <tr><th>Voter Score</th><td>{{ voter.voter_score }}</td></tr>
+</table>
+
+<h2>Address</h2>
+<table border="1" cellpadding="5">
+    <tr><th>Street Number</th><td>{{ voter.street_number }}</td></tr>
+    <tr><th>Street Name</th><td>{{ voter.street_name }}</td></tr>
+    {% if voter.apartment_number %}
+    <tr><th>Apartment</th><td>{{ voter.apartment_number }}</td></tr>
+    {% endif %}
+    <tr><th>Zip Code</th><td>{{ voter.zip_code }}</td></tr>
+</table>
+
+<p>
+    <a href="https://www.google.com/maps/search/?api=1&query={{ voter.street_number }}+{{ voter.street_name }}+Newton+MA+{{ voter.zip_code }}" target="_blank">
+        View on Google Maps
+    </a>
+</p>
+
+<h2>Election Participation</h2>
+<table border="1" cellpadding="5">
+    <thead>
+        <tr><th>Election</th><th>Voted</th></tr>
+    </thead>
+    <tbody>
+        <tr><td>2020 State</td><td>{{ voter.v20state }}</td></tr>
+        <tr><td>2021 Town</td><td>{{ voter.v21town }}</td></tr>
+        <tr><td>2021 Primary</td><td>{{ voter.v21primary }}</td></tr>
+        <tr><td>2022 General</td><td>{{ voter.v22general }}</td></tr>
+        <tr><td>2023 Town</td><td>{{ voter.v23town }}</td></tr>
+    </tbody>
+</table>
+
+{% endblock %}

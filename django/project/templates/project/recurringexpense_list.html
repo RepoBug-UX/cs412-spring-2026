@@ -1,0 +1,38 @@
+{# Name: Gabriel Ginsberg #}
+{# Email: gginsber@bu.edu #}
+{# Description: Lists the caller's RecurringExpenses. View applies        #}
+{#              per-user filtering and accepts an optional `essentials`   #}
+{#              query-string flag for a basic web-side filter; this is    #}
+{#              the simplest demo of the §9.6 search/filter requirement.  #}
+{% extends "project/base.html" %}
+
+{% block title %}Expenses — Financial Tracker{% endblock %}
+
+{% block content %}
+    <h1>My Expenses</h1>
+    <p class="muted">Your recurring subscriptions and bills, sorted by next due date.</p>
+
+    <p>
+        Filter:
+        <a href="{% url 'project:expense_list' %}">all</a> &middot;
+        <a href="{% url 'project:expense_list' %}?essentials=true">essentials only</a> &middot;
+        <a href="{% url 'project:expense_list' %}?essentials=false">non-essentials only</a>
+    </p>
+
+    <ul class="records">
+    {% for expense in object_list %}
+        <li>
+            <a href="{% url 'project:expense_detail' expense.pk %}">
+                <strong>{{ expense.service_name }}</strong>
+                <span class="muted">
+                    — {{ expense.expense_amount }} {{ expense.user.currency_preference }}/{{ expense.get_billing_cycle_display|lower }}
+                    | {{ expense.category.name }}
+                    | next due {{ expense.next_due_date|date:"Y-m-d" }}
+                </span>
+            </a>
+        </li>
+    {% empty %}
+        <li class="empty">No expenses match the current filter.</li>
+    {% endfor %}
+    </ul>
+{% endblock %}

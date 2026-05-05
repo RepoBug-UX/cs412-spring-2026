@@ -1,0 +1,31 @@
+{# Name: Gabriel Ginsberg #}
+{# Email: gginsber@bu.edu #}
+{# Description: Public landing page for the project app's web frontend. #}
+{#              Greets the user, explains the product in one paragraph,  #}
+{#              and points authenticated users at their dashboard while  #}
+{#              prompting anonymous users to log in.                     #}
+{% extends "project/base.html" %}
+
+{% block title %}Financial Tracker — Track your subscriptions and bills{% endblock %}
+
+{% block content %}
+    <h1>Financial Tracker</h1>
+    <p>
+        A personal tracker for recurring subscriptions and bills. Log your payment
+        methods, organize spending into categories, and watch how each service's
+        price changes over time. The full experience lives in the mobile app —
+        this web frontend gives you a read-only window into the same data.
+    </p>
+
+    {% if user.is_authenticated %}
+        <p>
+            Welcome back, <strong>{{ user.username }}</strong>. Pick a section from
+            the navigation above to view your data.
+        </p>
+    {% else %}
+        <p>
+            <a href="{% url 'project:login' %}">Log in</a> to view your profile,
+            payment methods, expenses, and price history.
+        </p>
+    {% endif %}
+{% endblock %}

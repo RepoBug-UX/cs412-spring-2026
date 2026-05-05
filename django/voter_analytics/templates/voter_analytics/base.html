@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Voter Analytics</title>
+</head>
+<body>
+
+<nav>
+    <a href="{% url 'voter_analytics:voters' %}">All Voters</a>
+    | <a href="{% url 'voter_analytics:graphs' %}">Graphs</a>
+</nav>
+
+<hr>
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>

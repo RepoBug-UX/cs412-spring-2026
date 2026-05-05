@@ -1,0 +1,24 @@
+{# Name: Gabriel Ginsberg #}
+{# Email: gginsber@bu.edu #}
+{# Description: DetailView for a single UserProfile. Restricted by the    #}
+{#              view's get_queryset to only the caller's profile, so any  #}
+{#              attempt to view another user's profile yields a 404.      #}
+{% extends "project/base.html" %}
+
+{% block title %}{{ object.user.username }} — Profile{% endblock %}
+
+{% block content %}
+    <h1>Profile: {{ object.user.username }}</h1>
+    <dl class="fields">
+        <dt>Username</dt><dd>{{ object.user.username }}</dd>
+        <dt>Email</dt><dd>{{ object.user.email|default:"—" }}</dd>
+        <dt>Monthly income</dt><dd>{{ object.monthly_income }} {{ object.currency_preference }}</dd>
+        <dt>Currency preference</dt><dd>{{ object.get_currency_preference_display }}</dd>
+        <dt>Payment methods on file</dt><dd>{{ object.payment_methods.count }}</dd>
+        <dt>Active expenses</dt><dd>{{ active_expense_count }}</dd>
+    </dl>
+
+    <p style="margin-top: 1.5rem;">
+        <a href="{% url 'project:profile_list' %}">&larr; Back to profile list</a>
+    </p>
+{% endblock %}

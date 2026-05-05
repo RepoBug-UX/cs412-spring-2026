@@ -1,0 +1,9 @@
+{% extends 'mini_insta/base.html' %}
+
+{% block content %}
+<div>
+    <h1>You have been logged out.</h1>
+    <p><a href="{% url 'mini_insta:login' %}">Login again</a></p>
+    <p><a href="{% url 'mini_insta:show_all_profiles' %}">Browse profiles</a></p>
+</div>
+{% endblock %}

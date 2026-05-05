@@ -1,0 +1,59 @@
+{% extends 'mini_insta/base.html' %}
+
+{% block content %}
+<div>
+    <h1>Post by {{ post.profile.display_name }}</h1>
+    <p><strong>Caption:</strong> {{ post.caption }}</p>
+    <p><strong>Posted:</strong> {{ post.timestamp }}</p>
+
+    <h2>Photos</h2>
+    {% for photo in post.get_all_photos %}
+        <div>
+            <img src="{{ photo.get_image_url }}" alt="Photo for post {{ post.id }}" style="max-width: 300px;">
+        </div>
+    {% empty %}
+        <p>No photos for this post.</p>
+    {% endfor %}
+
+    <p><strong>Likes:</strong> {{ post.get_likes.count }}
+    {% if request.user.is_authenticated and request.user != post.profile.user %}
+        {% if has_liked %}
+        | <a href="{% url 'mini_insta:delete_like' post.pk %}">Unlike</a>
+        {% else %}
+        | <a href="{% url 'mini_insta:like' post.pk %}">Like</a>
+        {% endif %}
+    {% endif %}
+    </p>
+
+    <h2>Comments</h2>
+    {% for comment in post.get_all_comments %}
+    <div>
+        <p><strong>{{ comment.profile.display_name }}</strong> — {{ comment.text }}</p>
+        <p><small>{{ comment.timestamp }}</small>
+        {% if request.user.is_authenticated and comment.profile.user == request.user %}
+        | <a href="{% url 'mini_insta:delete_comment' comment.pk %}">Delete</a>
+        {% endif %}
+        </p>
+    </div>
+    {% empty %}
+    <p>No comments yet.</p>
+    {% endfor %}
+
+    {% if request.user.is_authenticated %}
+    <h3>Add a Comment</h3>
+    <form action="{% url 'mini_insta:create_comment' post.pk %}" method="POST">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <input type="submit" value="Post Comment">
+    </form>
+    {% endif %}
+
+    {% if request.user == post.profile.user %}
+    <p>
+        <a href="{% url 'mini_insta:update_post' post.pk %}">Update</a> |
+        <a href="{% url 'mini_insta:delete_post' post.pk %}">Delete</a>
+    </p>
+    {% endif %}
+    <p><a href="{% url 'mini_insta:show_profile' post.profile.pk %}">Back to {{ post.profile.display_name }}'s profile</a></p>
+</div>
+{% endblock %}

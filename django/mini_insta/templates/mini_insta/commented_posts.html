@@ -1,0 +1,30 @@
+{% extends 'mini_insta/base.html' %}
+
+{% block content %}
+<div>
+    <h1>Posts Commented on by {{ profile.display_name }}</h1>
+
+    {% for post in posts %}
+    <div>
+        <p>
+            <a href="{% url 'mini_insta:show_profile' post.profile.pk %}">
+                <img src="{{ post.profile.get_profile_image_url }}" alt="{{ post.profile.username }}" style="max-width: 40px;">
+                <strong>{{ post.profile.display_name }}</strong>
+            </a>
+        </p>
+        <a href="{% url 'mini_insta:show_post' post.pk %}">
+            {% if post.get_all_photos %}
+                <img src="{{ post.get_all_photos.first.get_image_url }}" alt="Post image" style="max-width: 300px;">
+            {% endif %}
+        </a>
+        <p><a href="{% url 'mini_insta:show_post' post.pk %}">{{ post.caption }}</a></p>
+        <p><small>{{ post.get_likes.count }} likes | {{ post.timestamp }}</small></p>
+        <hr>
+    </div>
+    {% empty %}
+    <p>No commented posts yet.</p>
+    {% endfor %}
+
+    <p><a href="{% url 'mini_insta:show_my_profile' %}">Back to my profile</a></p>
+</div>
+{% endblock %}

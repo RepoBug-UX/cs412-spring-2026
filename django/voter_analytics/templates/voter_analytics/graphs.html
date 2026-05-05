@@ -1,0 +1,78 @@
+{% extends 'voter_analytics/base.html' %}
+
+{% block content %}
+<h1>Voter Analytics &mdash; Graphs</h1>
+
+<!-- Filter Form -->
+<form method="GET" action="{% url 'voter_analytics:graphs' %}">
+
+    <label>Party Affiliation:
+        <select name="party">
+            <option value="">-- Any --</option>
+            {% for p in parties %}
+            <option value="{{ p }}" {% if p == selected_party %}selected{% endif %}>{{ p|upper }}</option>
+            {% endfor %}
+        </select>
+    </label>
+
+    <label>Min Birth Year:
+        <select name="min_birth_year">
+            <option value="">-- Any --</option>
+            {% for y in years %}
+            <option value="{{ y }}" {% if y|stringformat:"s" == selected_min_birth_year %}selected{% endif %}>{{ y }}</option>
+            {% endfor %}
+        </select>
+    </label>
+
+    <label>Max Birth Year:
+        <select name="max_birth_year">
+            <option value="">-- Any --</option>
+            {% for y in years %}
+            <option value="{{ y }}" {% if y|stringformat:"s" == selected_max_birth_year %}selected{% endif %}>{{ y }}</option>
+            {% endfor %}
+        </select>
+    </label>
+
+    <label>Voter Score:
+        <select name="voter_score">
+            <option value="">-- Any --</option>
+            {% for s in scores %}
+            <option value="{{ s }}" {% if s|stringformat:"s" == selected_voter_score %}selected{% endif %}>{{ s }}</option>
+            {% endfor %}
+        </select>
+    </label>
+
+    <fieldset>
+        <legend>Voted in Election:</legend>
+        <label><input type="checkbox" name="v20state" value="on" {% if v20state_checked %}checked{% endif %}> 2020 State</label>
+        <label><input type="checkbox" name="v21town" value="on" {% if v21town_checked %}checked{% endif %}> 2021 Town</label>
+        <label><input type="checkbox" name="v21primary" value="on" {% if v21primary_checked %}checked{% endif %}> 2021 Primary</label>
+        <label><input type="checkbox" name="v22general" value="on" {% if v22general_checked %}checked{% endif %}> 2022 General</label>
+        <label><input type="checkbox" name="v23town" value="on" {% if v23town_checked %}checked{% endif %}> 2023 Town</label>
+    </fieldset>
+
+    <button type="submit">Filter</button>
+    <a href="{% url 'voter_analytics:graphs' %}">Clear</a>
+
+</form>
+
+<hr>
+
+<!-- Chart 1: Birth Year Histogram -->
+<h2>Distribution by Year of Birth</h2>
+<div style="width:100%">{{ birth_year_graph|safe }}</div>
+
+<!-- Chart 2: Party Affiliation Pie + Minor Party Breakdown -->
+<h2>Distribution by Party Affiliation</h2>
+<div style="margin: 0 80px; background-color: rgb(229,236,246);">
+    {{ party_graph|safe }}
+    {% if minor_party_graph %}
+    {{ minor_party_graph|safe }}
+    {% endif %}
+</div>
+
+<!-- Chart 3: Election Participation -->
+<h2>Participation by Election</h2>
+<div style="width:100%">{{ election_graph|safe }}</div>
+
+{% endblock %}

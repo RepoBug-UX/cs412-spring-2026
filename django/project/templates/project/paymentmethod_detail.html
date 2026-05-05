@@ -1,0 +1,36 @@
+{# Name: Gabriel Ginsberg #}
+{# Email: gginsber@bu.edu #}
+{# Description: DetailView for one PaymentMethod, restricted to the       #}
+{#              caller's own. Lists the active expenses paid with this    #}
+{#              method so the user can see what is actually charged here. #}
+{% extends "project/base.html" %}
+
+{% block title %}{{ object.nickname }} — Payment Method{% endblock %}
+
+{% block content %}
+    <h1>{{ object.nickname }}</h1>
+    <dl class="fields">
+        <dt>Nickname</dt><dd>{{ object.nickname }}</dd>
+        <dt>Type</dt><dd>{{ object.get_method_type_display }}</dd>
+        <dt>Expiry date</dt><dd>{{ object.expiry_date|default:"—" }}</dd>
+        <dt>Owner</dt><dd>{{ object.user.user.username }}</dd>
+    </dl>
+
+    <h2 style="margin-top: 1.5rem;">Expenses charged here</h2>
+    <ul class="records">
+    {% for expense in linked_expenses %}
+        <li>
+            <a href="{% url 'project:expense_detail' expense.pk %}">
+                <strong>{{ expense.service_name }}</strong>
+                <span class="muted">— {{ expense.expense_amount }} {{ expense.user.currency_preference }}/{{ expense.get_billing_cycle_display|lower }}</span>
+            </a>
+        </li>
+    {% empty %}
+        <li class="empty">No active expenses on this payment method.</li>
+    {% endfor %}
+    </ul>
+
+    <p style="margin-top: 1.5rem;">
+        <a href="{% url 'project:paymentmethod_list' %}">&larr; Back to payment methods</a>
+    </p>
+{% endblock %}

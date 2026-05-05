@@ -1,0 +1,15 @@
+{% extends 'quotes/base.html' %}
+
+{% block content %}
+<div>
+    <h1>Random Quote</h1>
+    <!--display the image-->
+    <img src="{{ image }}" alt="Linus Torvolds" style="max-width: 200px; margin: 10px;">
+
+    <!--display the quote-->
+    <p>"{{ quote }}"</p>
+
+    <!--url to get another quote-->
+    <a href="{% url 'quotes:root' %}">Get another quote</a>
+</div>
+{% endblock %}

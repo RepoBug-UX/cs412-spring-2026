@@ -1,0 +1,18 @@
+{% load static %}
+<html>
+    <head>
+        <title>Shelly's Sandbar</title>
+        <link rel="stylesheet" href="{% static 'styles.css' %}">
+    </head>
+    <body>
+        
+    <nav>  
+        <a href="{% url 'restaurant:root' %}">Home</a> |
+        <a href="{% url 'restaurant:order' %}">Order</a>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+ 
+    </body>
+</html>

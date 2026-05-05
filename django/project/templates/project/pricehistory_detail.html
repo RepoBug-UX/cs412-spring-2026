@@ -1,0 +1,28 @@
+{# Name: Gabriel Ginsberg #}
+{# Email: gginsber@bu.edu #}
+{# Description: DetailView for a single PriceHistory row, restricted to   #}
+{#              the caller's own (via expense__user filter). Renders the  #}
+{#              full row plus a back-link to the parent expense.          #}
+{% extends "project/base.html" %}
+
+{% block title %}{{ object.expense.service_name }} on {{ object.date_changed|date:"Y-m-d" }}{% endblock %}
+
+{% block content %}
+    <h1>Price history row</h1>
+    <dl class="fields">
+        <dt>Expense</dt>
+        <dd>
+            <a href="{% url 'project:expense_detail' object.expense.pk %}">{{ object.expense.service_name }}</a>
+        </dd>
+        <dt>Recorded amount</dt>
+        <dd>{{ object.amount_recorded }} {{ object.expense.user.currency_preference }}</dd>
+        <dt>Date of change</dt><dd>{{ object.date_changed|date:"Y-m-d" }}</dd>
+        <dt>Change note</dt><dd>{{ object.change_note|default:"—" }}</dd>
+    </dl>
+
+    <p style="margin-top: 1.5rem;">
+        <a href="{% url 'project:pricehistory_list' %}">&larr; Back to price history</a>
+        &middot;
+        <a href="{% url 'project:expense_detail' object.expense.pk %}">View parent expense</a>
+    </p>
+{% endblock %}

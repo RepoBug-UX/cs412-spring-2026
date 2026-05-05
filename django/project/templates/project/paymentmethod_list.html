@@ -1,0 +1,27 @@
+{# Name: Gabriel Ginsberg #}
+{# Email: gginsber@bu.edu #}
+{# Description: Lists the caller's PaymentMethods. The view restricts the #}
+{#              queryset to request.user.financial_profile so users can   #}
+{#              only see their own cards/accounts.                        #}
+{% extends "project/base.html" %}
+
+{% block title %}Payment Methods — Financial Tracker{% endblock %}
+
+{% block content %}
+    <h1>My Payment Methods</h1>
+    <p class="muted">Cards and accounts used to pay your recurring expenses.</p>
+
+    <ul class="records">
+    {% for pm in object_list %}
+        <li>
+            <a href="{% url 'project:paymentmethod_detail' pm.pk %}">
+                <strong>{{ pm.nickname }}</strong>
+                <span class="muted">— {{ pm.get_method_type_display }}</span>
+                {% if pm.expiry_date %}<span class="muted">(exp {{ pm.expiry_date|date:"Y-m-d" }})</span>{% endif %}
+            </a>
+        </li>
+    {% empty %}
+        <li class="empty">You have no payment methods yet.</li>
+    {% endfor %}
+    </ul>
+{% endblock %}

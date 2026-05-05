@@ -1,0 +1,69 @@
+{% extends 'restaurant/base.html' %}
+
+{% block content %}
+<div>
+    <h1>Place your order below</h1>
+    <form action="{% url 'restaurant:confirmation' %}" method="POST">
+        {% csrf_token %}
+        <div class="menu-container">
+            <div class="menu-item">
+                <h3>New England Clam Chowder</h3>
+                <img src="https://www.sipandfeast.com/wp-content/uploads/2024/05/new-england-clam-chowder-recipe-2.jpg" alt="Clam Chowder" style="max-width: 200px; margin: 10px;">
+                <p>A creamy classic loaded with fresh littleneck clams, smoked bacon, and tender Yukon potatoes.</p>
+                <p>$13.99</p>
+                <label><input type="checkbox" name="item" value="Clam Chowder"> Add to order</label>
+            </div>
+            <div class="menu-item">
+                <h3>Maryland Crab Cakes</h3>
+                <img src="https://sallysbakingaddiction.com/wp-content/uploads/2019/06/maryland-crab-cakes.jpg" alt="Crab Cakes" style="max-width: 200px; margin: 10px;">
+                <p>Two jumbo lump crab cakes seared to a golden crisp, served with a sauce of your choice and carrot slaw.</p>
+                <p>$26.99</p>
+                <label>
+                    Sauce Option:
+                    <select name="crab_cakes_sauce">
+                        <option value="">-- Choose One --</option>
+                        <option value="remoulade">Spicy Remoulade</option>
+                        <option value="lemon_butter">Lemon Butter</option>
+                        <option value="no_sauce">No Sauce</option>
+                    </select>
+                </label>
+                </br>
+                <label><input type="checkbox" name="item" value="Crab Cakes"> Add to order</label>
+            </div>
+            <div class="menu-item">
+                <h3>Seared Sea Scallops</h3>
+                <img src="https://images.getrecipekit.com/20230920133630-2-20how-20to-20get-20the-20perfect-20sear-20on-20scallops-20-e2-80-93-20sizzlefish-20x-20-40brightmomentco.jpg?class=16x9" alt="Scallops" style="max-width: 200px; margin: 10px;">
+                <p>Pan-seared Atlantic scallops finished with a citrus beurre blanc and toasted pistachios.</p>
+                <p>$31.99</p>
+                <label><input type="checkbox" name="item" value="Scallops"> Add to order</label>
+            </div>
+            <div class="menu-item">
+                <h3>Shrimp Scampi</h3>
+                <img src="https://static01.nyt.com/images/2022/06/02/dining/ShrimpScampi_thumb/ShrimpScampi_thumb-threeByTwoMediumAt2X-v2.jpg?quality=75&auto=webp" alt="Shrimp Scampi" style="max-width: 200px; margin: 10px;">
+                <p>Succulent jumbo shrimp sautéed in a garlic-infused butter sauce with white wine and fresh herbs.</p>
+                <p>$22.99</p>
+                <label><input type="checkbox" name="item" value="Shrimp Scampi"> Add to order</label>
+            </div>
+        </div>
+        <div class="daily-special-section">
+            <h2>Catch of the Day</h2>
+            <div class="menu-item">
+                <h3>{{ daily_special.name }}</h3>
+                <img src="{{ daily_special.image }}" alt="{{ daily_special.name }}" style="max-width: 200px; margin: 10px;">
+                <p>{{ daily_special.description }}</p>
+                <p>${{ daily_special.price }}</p>
+                <label><input type="checkbox" name="item" value="{{ daily_special.name }}"> Add to order</label>
+            </div>
+        </div>
+        <div class="contact-section">
+            <h2>Special Instructions</h2>
+            <textarea name="special_instructions" rows="5" cols="40" placeholder="Any special requests or allergies?"></textarea>
+            
+            <h2>Customer Information</h2>
+            Name: <input type="text" name="name"><br>
+            Phone: <input type="text" name="phone"><br>
+            Email: <input type="email" name="email"><br>
+            <input type="submit">
+        </div>
+</div>
+{% endblock %}

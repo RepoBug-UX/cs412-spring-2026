@@ -1,0 +1,21 @@
+{% load static %}
+<html>
+    <head>
+        <title>Quotes App</title>
+        <link rel="stylesheet" href="{% static 'styles.css' %}">
+    </head>
+    <body>
+        
+    <nav>
+        <a href="{% url 'quotes:root' %}">Quote</a> |
+        <a href="{% url 'quotes:show_all' %}">Show All</a> |
+        <a href="{% url 'quotes:about' %}">About</a>
+    </nav>
+
+
+    {% block content %}
+    {% endblock %}
+ 
+ 
+    </body>
+</html>

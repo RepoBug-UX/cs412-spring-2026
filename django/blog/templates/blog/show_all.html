@@ -1,0 +1,20 @@
+<!-- templates/show_all.html -->
+ 
+ 
+<h1>Showing all Articles</h1>
+<!-- scriptlet code to display the value of the variable `articles` 
+{{ articles }}
+-->
+<div>
+    {% for a in articles %}
+    <div>
+		<h2>{{a.title}}</h2>
+		<h3>by {{a.author}} at {{a.published}}</h3>
+		<p>
+		{{a.text}}
+		</p>
+    </div>
+ 
+ 
+    {% endfor %}
+<div>

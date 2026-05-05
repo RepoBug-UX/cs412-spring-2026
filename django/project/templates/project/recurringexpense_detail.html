@@ -1,0 +1,82 @@
+{# Name: Gabriel Ginsberg #}
+{# Email: gginsber@bu.edu #}
+{# Description: DetailView for one RecurringExpense, restricted to the    #}
+{#              caller's own. Surfaces the full field set plus the        #}
+{#              expense's PriceHistory timeline (chronological), which    #}
+{#              is the rubric §9.6 cross-model report on the web side.    #}
+{#              Notes and payment URL added in chunk 4h: notes render as  #}
+{#              free text, payment_url renders as an external link.       #}
+{% extends "project/base.html" %}
+
+{% block title %}{{ object.service_name }} — Expense{% endblock %}
+
+{% block content %}
+    <h1>{{ object.service_name }}</h1>
+    <dl class="fields">
+        <dt>Owner</dt><dd>{{ object.user.user.username }}</dd>
+        <dt>Category</dt>
+        <dd><a href="{% url 'project:category_detail' object.category.pk %}">{{ object.category.name }}</a></dd>
+        <dt>Payment method</dt>
+        <dd>
+            {% if object.payment_method %}
+                <a href="{% url 'project:paymentmethod_detail' object.payment_method.pk %}">{{ object.payment_method.nickname }}</a>
+            {% else %}
+                <span class="muted">— (unassigned)</span>
+            {% endif %}
+        </dd>
+        <dt>Current amount</dt><dd>{{ object.expense_amount }} {{ object.user.currency_preference }}</dd>
+        <dt>Billing cycle</dt><dd>{{ object.get_billing_cycle_display }}</dd>
+        <dt>Next due date</dt><dd>{{ object.next_due_date|date:"Y-m-d" }}</dd>
+        <dt>Active</dt><dd>{{ object.is_active|yesno:"Yes,No" }}</dd>
+        <dt>Notes</dt>
+        <dd>
+            {% if object.notes %}
+                {{ object.notes|linebreaksbr }}
+            {% else %}
+                <span class="muted">—</span>
+            {% endif %}
+        </dd>
+        <dt>Payment portal</dt>
+        <dd>
+            {% if object.payment_url %}
+                {# `target="_blank" rel="noopener"` so the link opens in a new tab #}
+                {# without giving the destination access to window.opener.        #}
+                <a href="{{ object.payment_url }}" target="_blank" rel="noopener">
+                    {{ object.payment_url }} ↗
+                </a>
+            {% else %}
+                <span class="muted">—</span>
+            {% endif %}
+        </dd>
+    </dl>
+
+    <h2 style="margin-top: 1.8rem;">Price history</h2>
+    {% if price_history %}
+        <table class="timeline">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Note</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for row in price_history %}
+                <tr>
+                    <td>{{ row.date_changed|date:"Y-m-d" }}</td>
+                    <td>{{ row.amount_recorded }} {{ object.user.currency_preference }}</td>
+                    <td>{{ row.change_note|default:"—" }}</td>
+                    <td><a href="{% url 'project:pricehistory_detail' row.pk %}">view</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="empty">No price history yet.</p>
+    {% endif %}
+
+    <p style="margin-top: 1.5rem;">
+        <a href="{% url 'project:expense_list' %}">&larr; Back to expenses</a>
+    </p>
+{% endblock %}

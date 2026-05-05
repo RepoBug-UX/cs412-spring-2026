@@ -1,0 +1,14 @@
+{% extends 'mini_insta/base.html' %}
+
+{% block content %}
+<div>
+    <h1>Delete Comment</h1>
+    <p>Are you sure you want to delete this comment?</p>
+    <p><strong>{{ object.profile.display_name }}</strong>: {{ object.text }}</p>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Delete">
+        <a href="{% url 'mini_insta:show_post' object.post.pk %}">Cancel</a>
+    </form>
+</div>
+{% endblock %}

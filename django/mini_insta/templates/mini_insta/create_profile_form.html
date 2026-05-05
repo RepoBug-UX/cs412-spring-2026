@@ -1,0 +1,33 @@
+{% extends 'mini_insta/base.html' %}
+
+{% block content %}
+<div>
+    <h1>Create an Account</h1>
+    <form action="{% url 'mini_insta:create_profile' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <h2>Account Details</h2>
+        {{ user_creation_form.as_p }}
+
+        <h2>Profile Details</h2>
+
+        <p>Username:<br>
+        {{ form.username }}</p>
+
+        <p>Display Name:<br>
+        {{ form.display_name }}</p>
+
+        <p>Bio:<br>
+        {{ form.bio_text }}</p>
+
+        <p>Profile Image URL:<br>
+        {{ form.profile_image_url }}</p>
+
+        <p>Profile Image Upload:<br>
+        {{ form.profile_image_file }}</p>
+
+        <input type="submit" value="Create Account">
+        <a href="{% url 'mini_insta:show_all_profiles' %}">Cancel</a>
+    </form>
+</div>
+{% endblock %}

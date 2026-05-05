@@ -1,0 +1,24 @@
+{# Name: Gabriel Ginsberg #}
+{# Email: gginsber@bu.edu #}
+{# Description: DetailView for one global Category. Renders the category  #}
+{#              fields plus a count of how many of the *caller's* active  #}
+{#              expenses use this category (computed in the view's        #}
+{#              get_context_data).                                        #}
+{% extends "project/base.html" %}
+
+{% block title %}{{ object.name }} — Category{% endblock %}
+
+{% block content %}
+    <h1>{{ object.name }}</h1>
+    <dl class="fields">
+        <dt>Name</dt><dd>{{ object.name }}</dd>
+        <dt>Description</dt><dd>{{ object.description|default:"—" }}</dd>
+        <dt>Essential</dt><dd>{{ object.is_essential|yesno:"Yes,No" }}</dd>
+        <dt>Budget goal</dt><dd>{{ object.budget_goal|default:"—" }}</dd>
+        <dt>Your active expenses in this category</dt><dd>{{ user_expense_count }}</dd>
+    </dl>
+
+    <p style="margin-top: 1.5rem;">
+        <a href="{% url 'project:category_list' %}">&larr; Back to categories</a>
+    </p>
+{% endblock %}

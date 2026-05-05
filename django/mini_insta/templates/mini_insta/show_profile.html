@@ -1,0 +1,42 @@
+{% extends 'mini_insta/base.html' %}
+
+{% block content %}
+<div>
+    <h1>{{ profile.display_name }}</h1>
+    <img src="{{ profile.get_profile_image_url }}" alt="{{ profile.username }}" style="max-width: 300px;">
+    <p><strong>Username:</strong> @{{ profile.username }}</p>
+    <p><strong>Bio:</strong> {{ profile.bio_text }}</p>
+    <p><strong>Joined:</strong> {{ profile.join_date }}</p>
+
+    <p>
+        <a href="{% url 'mini_insta:show_followers' profile.pk %}">{{ profile.get_num_followers }} Followers</a> |
+        <a href="{% url 'mini_insta:show_following' profile.pk %}">{{ profile.get_num_following }} Following</a>
+    </p>
+
+    {% if request.user == profile.user %}
+    <p><a href="{% url 'mini_insta:update_profile' %}">Update Profile</a></p>
+    <p><a href="{% url 'mini_insta:liked_posts' %}">Liked Posts</a></p>
+    <p><a href="{% url 'mini_insta:commented_posts' %}">Commented Posts</a></p>
+    {% elif request.user.is_authenticated %}
+        {% if is_following %}
+        <p><a href="{% url 'mini_insta:delete_follow' profile.pk %}">Unfollow</a></p>
+        {% else %}
+        <p><a href="{% url 'mini_insta:follow' profile.pk %}">Follow</a></p>
+        {% endif %}
+    {% endif %}
+
+    <h2>Posts</h2>
+    {% for post in profile.get_all_posts %}
+        <div>
+            <a href="{% url 'mini_insta:show_post' post.pk %}">
+                {% if post.get_all_photos %}
+                    <img src="{{ post.get_all_photos.first.get_image_url }}" alt="Photo for post {{ post.id }}" style="max-width: 300px;">
+                {% else %}
+                    <img src="https://via.placeholder.com/300x300?text=No+Image" alt="No image" style="max-width: 300px;">
+                {% endif %}
+            </a>
+            <p><a href="{% url 'mini_insta:show_post' post.pk %}">{{ post.caption }}</a></p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

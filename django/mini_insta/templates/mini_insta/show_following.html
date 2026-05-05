@@ -1,0 +1,20 @@
+{% extends 'mini_insta/base.html' %}
+
+{% block content %}
+<div>
+    <h1>{{ profile.display_name }} is Following</h1>
+    <p><a href="{% url 'mini_insta:show_profile' profile.pk %}">Back to profile</a></p>
+
+    {% for followed in profile.get_following %}
+    <div>
+        <a href="{% url 'mini_insta:show_profile' followed.pk %}">
+            <img src="{{ followed.get_profile_image_url }}" alt="{{ followed.username }}" style="max-width: 80px;">
+        </a>
+        <p><a href="{% url 'mini_insta:show_profile' followed.pk %}">{{ followed.display_name }}</a></p>
+        <p>@{{ followed.username }}</p>
+    </div>
+    {% empty %}
+    <p>Not following anyone yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

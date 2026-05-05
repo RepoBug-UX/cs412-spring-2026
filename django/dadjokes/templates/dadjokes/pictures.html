@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><title>All Pictures</title></head>
+<body>
+    <h1>All Pictures</h1>
+    {% for picture in pictures %}
+        <div style="margin-bottom:20px;">
+            <a href="{% url 'dadjokes:picture_detail' picture.pk %}">
+                <img src="{{ picture.image_url }}" alt="Funny picture" style="max-width:300px;">
+            </a>
+            <br><em>Contributed by {{ picture.contributor }}</em>
+        </div>
+    {% endfor %}
+
+    <hr>
+    <a href="{% url 'dadjokes:random' %}">Random</a> |
+    <a href="{% url 'dadjokes:jokes' %}">All Jokes</a>
+</body>
+</html>

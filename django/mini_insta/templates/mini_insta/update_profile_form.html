@@ -1,0 +1,25 @@
+{% extends 'mini_insta/base.html' %}
+
+{% block content %}
+<div>
+    <h1>Update Profile: {{ profile.display_name }}</h1>
+    <form action="{% url 'mini_insta:update_profile' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <p>Display Name:<br>
+        {{ form.display_name }}</p>
+
+        <p>Profile Image URL:<br>
+        {{ form.profile_image_url }}</p>
+
+        <p>Profile Image Upload:<br>
+        {{ form.profile_image_file }}</p>
+
+        <p>Bio:<br>
+        {{ form.bio_text }}</p>
+
+        <input type="submit" value="Update">
+        <a href="{% url 'mini_insta:show_profile' profile.pk %}">Cancel</a>
+    </form>
+</div>
+{% endblock %}

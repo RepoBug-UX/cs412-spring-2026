@@ -1,0 +1,43 @@
+{% extends 'mini_insta/base.html' %}
+
+{% block content %}
+<div>
+    <h1>Search Results for "{{ query }}"</h1>
+    <form action="{% url 'mini_insta:search' %}" method="GET">
+        <p>
+            <input type="text" name="query" value="{{ query }}" placeholder="Search profiles and posts...">
+            <input type="submit" value="Search">
+        </p>
+    </form>
+
+    <h2>Profiles</h2>
+    {% for p in profiles %}
+    <div>
+        <a href="{% url 'mini_insta:show_profile' p.pk %}">
+            <img src="{{ p.get_profile_image_url }}" alt="{{ p.username }}" style="max-width: 60px;">
+            <strong>{{ p.display_name }}</strong>
+        </a>
+        <p>@{{ p.username }}</p>
+    </div>
+    {% empty %}
+    <p>No profiles match "{{ query }}".</p>
+    {% endfor %}
+
+    <h2>Posts</h2>
+    {% for post in posts %}
+    <div>
+        <p>
+            <a href="{% url 'mini_insta:show_profile' post.profile.pk %}"><strong>{{ post.profile.display_name }}</strong></a>
+        </p>
+        <a href="{% url 'mini_insta:show_post' post.pk %}">
+            {% if post.get_all_photos %}
+                <img src="{{ post.get_all_photos.first.get_image_url }}" alt="Post image" style="max-width: 200px;">
+            {% endif %}
+            <p>{{ post.caption }}</p>
+        </a>
+    </div>
+    {% empty %}
+    <p>No posts match "{{ query }}".</p>
+    {% endfor %}
+</div>
+{% endblock %}

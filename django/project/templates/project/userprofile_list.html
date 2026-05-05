@@ -1,0 +1,26 @@
+{# Name: Gabriel Ginsberg #}
+{# Email: gginsber@bu.edu #}
+{# Description: Lists the caller's UserProfile (always a single row) so   #}
+{#              the rubric's "ListView for each model" requirement is met #}
+{#              without leaking other users' profiles.                    #}
+{% extends "project/base.html" %}
+
+{% block title %}My Profile — Financial Tracker{% endblock %}
+
+{% block content %}
+    <h1>My Profile</h1>
+    <p class="muted">Your financial-tracker profile holds your monthly income and currency preference.</p>
+
+    <ul class="records">
+    {% for profile in object_list %}
+        <li>
+            <a href="{% url 'project:profile_detail' profile.pk %}">
+                <strong>{{ profile.user.username }}</strong>
+                — {{ profile.monthly_income }} {{ profile.currency_preference }}/month
+            </a>
+        </li>
+    {% empty %}
+        <li class="empty">No profile found for your account.</li>
+    {% endfor %}
+    </ul>
+{% endblock %}
