@@ -1,0 +1,26 @@
+# --- Top Level ---
+.env
+**/.DS_Store
+DESIGN.md
+
+# --- Django / Backend ---
+# These patterns find matches in any subdirectory
+django_dir/*.pyc
+django_dir/__pycache__/
+django_dir/db.sqlite3
+django_dir/media/
+django_dir/.venv/
+django_dir/env/
+
+# --- React / Frontend ---
+react/*/node_modules/
+react/*/build/
+react/*/dist/
+react/*/\.pnp
+react/*/\.pnp.js
+
+# Testing/Logs
+react/*/coverage/
+react/*/npm-debug.log*
+react/*/yarn-debug.log*
+react/*/yarn-error.log*
